@@ -6,7 +6,7 @@ export const connectDB = async () => {
     const conn = await mongoose.connect(process.env.MONGO_URI);
     Logger.info(`MongoDB Connected: ${conn.connection.host}`);
 
-    
+     
     mongoose.connection.on('connected', () => {
       Logger.info('Mongoose connected to MongoDB');
     });
