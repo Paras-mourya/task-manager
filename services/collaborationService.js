@@ -517,24 +517,25 @@ class CollaborationService {
    */
   async removeCollaborator(taskId, collaboratorId, userId) {
     try {
+      // Fetch collaborator first to identify user and check existence
+      const collaboration = await CollaborationRepository.findCollaborator(taskId, collaboratorId);
+      
+      if (!collaboration) {
+        throw ApiError.notFound('Collaborator not found');
+      }
+
       // Check permission - owner or the collaborator themselves
       const access = await CollaborationRepository.canUserAccessTask(taskId, userId);
       
-      const isSelf = userId.toString() === collaboratorId.toString();
+      const targetUserId = collaboration.collaborator._id.toString();
+      const isSelf = userId.toString() === targetUserId;
       const canRemove = access.role === 'owner' || isSelf;
       
       if (!canRemove) {
         throw ApiError.forbidden('You do not have permission to remove this collaborator');
       }
 
-      const collaboration = await CollaborationRepository.removeCollaborator(
-        taskId,
-        collaboratorId
-      );
-
-      if (!collaboration) {
-        throw ApiError.notFound('Collaborator not found');
-      }
+      await collaboration.removeCollaborator();
 
       // Update task counts
       const Task = (await import('../models/Task.js')).default;
@@ -549,7 +550,7 @@ class CollaborationService {
 
       // Send notification if removed by owner
       if (!isSelf) {
-        const removedUser = await User.findById(collaboratorId);
+        const removedUser = collaboration.collaborator; // Already populated
         const remover = await User.findById(userId);
         
         await EmailService.sendCollaboratorRemovedNotification(
@@ -557,6 +558,20 @@ class CollaborationService {
           removedUser,
           remover
         );
+        
+        // Push notification
+        await NotificationService.createNotification({
+            recipient: removedUser._id,
+            sender: remover._id,
+            type: 'team_member_left', 
+            title: '🚫 Removed from Task',
+            message: `${remover.firstName} removed you from task "${task.title}"`,
+            relatedEntity: {
+               entityType: 'Task',
+               entityId: task._id
+            },
+            priority: 'high'
+        });
       }
 
       return {

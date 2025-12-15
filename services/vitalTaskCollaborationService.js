@@ -502,24 +502,25 @@ class VitalTaskCollaborationService {
    */
   async removeCollaborator(vitalTaskId, collaboratorId, userId) {
     try {
+      // Fetch collaborator first
+      const collaboration = await CollaborationRepository.findVitalTaskCollaborator(vitalTaskId, collaboratorId);
+      
+      if (!collaboration) {
+        throw ApiError.notFound('Collaborator not found');
+      }
+
       // Check permission - owner or the collaborator themselves
       const access = await CollaborationRepository.canUserAccessVitalTask(vitalTaskId, userId);
       
-      const isSelf = userId.toString() === collaboratorId.toString();
+      const targetUserId = collaboration.collaborator._id.toString();
+      const isSelf = userId.toString() === targetUserId;
       const canRemove = access.role === 'owner' || isSelf;
       
       if (!canRemove) {
         throw ApiError.forbidden('You do not have permission to remove this collaborator');
       }
 
-      const collaboration = await CollaborationRepository.removeVitalTaskCollaborator(
-        vitalTaskId,
-        collaboratorId
-      );
-
-      if (!collaboration) {
-        throw ApiError.notFound('Collaborator not found');
-      }
+      await collaboration.removeCollaborator();
 
       // Update vital task counts
       const vitalTask = await VitalTask.findById(vitalTaskId);
@@ -533,7 +534,7 @@ class VitalTaskCollaborationService {
 
       // Send notification if removed by owner
       if (!isSelf) {
-        const removedUser = await User.findById(collaboratorId);
+        const removedUser = collaboration.collaborator;
         const remover = await User.findById(userId);
         
         await EmailService.sendVitalTaskCollaboratorRemovedNotification(

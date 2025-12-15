@@ -122,6 +122,22 @@ class CollaborationRepository {
   }
 
   /**
+   * Find a specific collaborator safely (by User ID or Row ID)
+   */
+  async findCollaborator(taskId, collaboratorId) {
+    try {
+      return await TaskCollaborator.findOne({
+        task: taskId,
+        $or: [{ collaborator: collaboratorId }, { _id: collaboratorId }],
+        status: 'active'
+      }).populate('collaborator', 'firstName lastName email avatar');
+    } catch (error) {
+      Logger.error('Error finding collaborator', { error: error.message });
+      throw error;
+    }
+  }
+
+  /**
    * Get task collaborators
    */
   async getTaskCollaborators(taskId, status = 'active') {
@@ -164,7 +180,7 @@ class CollaborationRepository {
     try {
       const collaboration = await TaskCollaborator.findOne({
         task: taskId,
-        collaborator: collaboratorId,
+        $or: [{ collaborator: collaboratorId }, { _id: collaboratorId }],
         status: 'active'
       });
       
@@ -193,7 +209,7 @@ class CollaborationRepository {
     try {
       const collaboration = await TaskCollaborator.findOne({
         task: taskId,
-        collaborator: collaboratorId,
+        $or: [{ collaborator: collaboratorId }, { _id: collaboratorId }],
         status: 'active'
       });
       
@@ -432,6 +448,22 @@ class CollaborationRepository {
   }
 
   /**
+   * Find a specific vital task collaborator safely
+   */
+  async findVitalTaskCollaborator(vitalTaskId, collaboratorId) {
+    try {
+      return await VitalTaskCollaborator.findOne({
+        vitalTask: vitalTaskId,
+        $or: [{ collaborator: collaboratorId }, { _id: collaboratorId }],
+        status: 'active'
+      }).populate('collaborator', 'firstName lastName email avatar');
+    } catch (error) {
+      Logger.error('Error finding vital task collaborator', { error: error.message });
+      throw error;
+    }
+  }
+
+  /**
    * Get user's shared vital tasks
    */
   async getUserSharedVitalTasks(userId, status = 'active') {
@@ -462,7 +494,7 @@ class CollaborationRepository {
     try {
       const collaboration = await VitalTaskCollaborator.findOne({
         vitalTask: vitalTaskId,
-        collaborator: collaboratorId,
+        $or: [{ collaborator: collaboratorId }, { _id: collaboratorId }],
         status: 'active'
       });
       
@@ -491,7 +523,7 @@ class CollaborationRepository {
     try {
       const collaboration = await VitalTaskCollaborator.findOne({
         vitalTask: vitalTaskId,
-        collaborator: collaboratorId,
+        $or: [{ collaborator: collaboratorId }, { _id: collaboratorId }],
         status: 'active'
       });
       
