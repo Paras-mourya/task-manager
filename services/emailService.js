@@ -94,175 +94,225 @@ class EmailService {
 
     const html = `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Verify Your Email</title>
+          <title>Email Verification</title>
           <style>
-            body { 
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-              line-height: 1.6; 
-              color: #333;
-              background-color: #f4f4f4;
-              margin: 0;
-              padding: 0;
-            }
-            .container { 
-              max-width: 600px; 
-              margin: 30px auto; 
-              background: white;
-              border-radius: 10px;
-              overflow: hidden;
-              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .header { 
-              background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); 
-              color: white; 
-              padding: 25px 20px; 
-              text-align: center; 
-            }
-            .header-branding {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 15px;
-              margin-bottom: 8px;
-            }
-            .header img {
-              width: 48px;
-              height: 48px;
-              background: rgba(255, 255, 255, 0.2);
-              padding: 8px;
-              border-radius: 12px;
-              box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-              margin: 0;
-              flex-shrink: 0;
-            }
-            .header h1 {
-              margin: 0;
-              font-size: 24px;
-              font-weight: 700;
-              line-height: 1.2;
-            }
-            .content { 
-              padding: 40px 30px;
-              background: white;
-            }
-            .content h2 {
-              color: #333;
-              font-size: 24px;
-              margin-bottom: 20px;
-            }
-            .content p {
-              margin-bottom: 15px;
-              color: #555;
-            }
-            .button-container {
-              text-align: center;
-              margin: 30px 0;
-            }
-            .button { 
-              display: inline-block; 
-              padding: 15px 40px; 
-              background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); 
-              color: white !important; 
-              text-decoration: none; 
-              border-radius: 5px; 
-              font-weight: 600;
-              font-size: 16px;
-              transition: transform 0.2s;
-            }
-            .button:hover {
-              transform: translateY(-2px);
-            }
-            .link-box {
-              background: #f8f9fa;
-              padding: 15px;
-              border-radius: 5px;
-              margin: 20px 0;
-              word-break: break-all;
-            }
-            .link-box p {
-              margin: 5px 0;
-              font-size: 14px;
-            }
-            .link-box a {
-              color: #FF6B6B;
-              text-decoration: none;
-            }
-            .warning { 
-              background: #fff3cd; 
-              border-left: 4px solid #ffc107; 
-              padding: 15px; 
-              margin: 20px 0;
-              border-radius: 4px;
-            }
-            .warning strong {
-              color: #856404;
-            }
-            .footer { 
-              text-align: center; 
-              padding: 20px 30px;
-              background: #f8f9fa;
-              color: #6c757d; 
-              font-size: 13px; 
-            }
-            .footer p {
-              margin: 5px 0;
-            }
+              :root {
+                  --primary: #FF6B6B;
+                  --primary-gradient: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+                  --background: #F8FAFC;
+                  --card-bg: #FFFFFF;
+                  --text-main: #1E293B;
+                  --text-muted: #64748B;
+                  --border: #E2E8F0;
+              }
+
+              body {
+                  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  background-color: #F8FAFC;
+                  margin: 0;
+                  padding: 0;
+                  -webkit-font-smoothing: antialiased;
+              }
+
+              .email-container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  background-color: #FFFFFF;
+                  border: 1px solid #E2E8F0;
+                  border-radius: 16px;
+                  overflow: hidden;
+                  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+                  margin-top: 40px;
+                  margin-bottom: 40px;
+              }
+
+              .header {
+                  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+                  padding: 40px 20px;
+                  text-align: center;
+                  color: white;
+              }
+
+              .logo {
+                  width: 56px;
+                  height: 56px;
+                  background: rgba(255, 255, 255, 0.2);
+                  backdrop-filter: blur(10px);
+                  border-radius: 14px;
+                  margin-bottom: 16px;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                  object-fit: contain;
+                  padding: 4px;
+              }
+
+              .header h1 {
+                  margin: 0;
+                  font-size: 24px;
+                  font-weight: 800;
+                  letter-spacing: -0.025em;
+              }
+
+              .content {
+                  padding: 40px;
+              }
+
+              .welcome-text {
+                  font-size: 18px;
+                  font-weight: 700;
+                  color: #1E293B;
+                  margin-bottom: 16px;
+              }
+
+              .main-text {
+                  font-size: 16px;
+                  line-height: 1.6;
+                  color: #1E293B;
+                  margin-bottom: 32px;
+              }
+
+              .actions {
+                  text-align: center;
+                  margin-bottom: 32px;
+              }
+
+              .btn {
+                  display: inline-block;
+                  padding: 16px 40px;
+                  border-radius: 12px;
+                  font-weight: 600;
+                  font-size: 16px;
+                  text-decoration: none;
+                  transition: all 0.2s;
+                  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+                  color: white !important;
+                  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+              }
+
+              .link-box {
+                  background: #F1F5F9;
+                  padding: 20px;
+                  border-radius: 12px;
+                  margin-bottom: 32px;
+              }
+
+              .link-box p {
+                  margin: 0 0 8px 0;
+                  font-size: 12px;
+                  font-weight: 700;
+                  text-transform: uppercase;
+                  letter-spacing: 0.05em;
+                  color: #64748B;
+              }
+
+              .link-box a {
+                  font-size: 14px;
+                  color: #FF6B6B;
+                  text-decoration: none;
+                  word-break: break-all;
+              }
+
+              .warning-strip {
+                  background: #FFFBEB;
+                  border-left: 4px solid #F59E0B;
+                  padding: 16px;
+                  border-radius: 8px;
+                  margin-bottom: 32px;
+              }
+
+              .warning-strip p {
+                  margin: 0;
+                  font-size: 14px;
+                  color: #92400E;
+                  line-height: 1.5;
+              }
+
+              .footer {
+                  padding: 32px 40px;
+                  background: #F8FAFC;
+                  text-align: center;
+                  border-top: 1px solid #E2E8F0;
+              }
+
+              .footer p {
+                  margin: 0;
+                  font-size: 12px;
+                  color: #64748B;
+                  line-height: 1.5;
+              }
+
+              @media (max-width: 480px) {
+                  .email-container {
+                      margin: 0;
+                      border-radius: 0;
+                      border: none;
+                  }
+                  .content {
+                      padding: 30px 20px;
+                  }
+              }
           </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="header-branding">
-                <img src="${LOGO_URL}" alt="Tasskr">
-                <h1> Welcome to Tasskr!</h1>
+      </head>
+      <body>
+          <div class="email-container">
+              <div class="header">
+                  <img src="${LOGO_URL}" alt="Tasskr" class="logo">
+                  <h1>Email Verification</h1>
               </div>
-            </div>
-            <div class="content">
-              <h2>Hello ${user.firstName} ${user.lastName},</h2>
-              <p>Thank you for registering with Tasskr. To complete your registration and start using our platform, please verify your email address by clicking the button below.</p>
-              
-              <div class="button-container">
-                <a href="${verificationUrl}" class="button">Verify Email Address</a>
+
+              <div class="content">
+                  <p class="welcome-text">Hello ${user.firstName} ${user.lastName || ''},</p>
+                  <p class="main-text">
+                      Welcome to Tasskr! We're excited to have you on board. To start collaborating and managing your tasks effectively, please verify your email address by clicking the button below.
+                  </p>
+
+                  <div class="actions">
+                      <a href="${verificationUrl}" class="btn">Verify Email Address</a>
+                  </div>
+
+                  <div class="warning-strip">
+                      <p><strong>Note:</strong> This verification link is valid for <strong>24 hours</strong>. If you didn't create an account, you can safely ignore this email.</p>
+                  </div>
+
+                  <div class="link-box">
+                      <p>Trouble with the button? Copy this link:</p>
+                      <a href="${verificationUrl}">${verificationUrl}</a>
+                  </div>
+
+                  <p class="main-text" style="margin-bottom: 0;">
+                      Best regards,<br>
+                      <strong>The Tasskr Team</strong>
+                  </p>
               </div>
-              
-              <div class="link-box">
-                <p><strong>Or copy and paste this link into your browser:</strong></p>
-                <p><a href="${verificationUrl}">${verificationUrl}</a></p>
+
+              <div class="footer">
+                  <p><strong>Tasskr</strong> — Advanced Collaborative Task Management</p>
+                  <p>© ${new Date().getFullYear()} Tasskr Inc. All rights reserved.</p>
+                  <p style="margin-top: 8px;">Sent to ${user.email}. If you weren't expecting this email, you can safely ignore it.</p>
               </div>
-              
-              <div class="warning">
-                <strong>⚠️ Important:</strong> This verification link will expire in 24 hours. If you did not create an account with Tasskr, please ignore this email.
-              </div>
-              
-              <p style="margin-top: 30px;">Best regards,<br><strong>The Tasskr Team</strong></p>
-            </div>
-            <div class="footer">
-              <p>© ${new Date().getFullYear()} Tasskr. All rights reserved.</p>
-              <p>This is an automated email. Please do not reply to this message.</p>
-            </div>
           </div>
-        </body>
+      </body>
       </html>
     `;
 
     const text = `
       Welcome to Tasskr!
       
-      Hello ${user.firstName} ${user.lastName},
+      Hello ${user.firstName} ${user.lastName || ''},
       
-      Thank you for registering. Please verify your email address by visiting:
+      We're excited to have you on board. Please verify your email address to get started:
       ${verificationUrl}
       
-      This link will expire in 24 hours.
+      This link is valid for 24 hours.
       
       If you did not create an account, please ignore this email.
       
       Best regards,
       The Tasskr Team
+      Advanced Collaborative Task Management
     `;
 
     return await this.sendEmail({
@@ -282,143 +332,222 @@ class EmailService {
 
     const html = `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
+      <html lang="en">
+      <head>
+          <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Welcome to Tasskr</title>
           <style>
-            body { 
-              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-              line-height: 1.6; 
-              color: #333;
-              background-color: #f4f4f4;
-              margin: 0;
-              padding: 0;
-            }
-            .container { 
-              max-width: 600px; 
-              margin: 30px auto; 
-              background: white;
-              border-radius: 10px;
-              overflow: hidden;
-              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .header { 
-              background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); 
-              color: white; 
-              padding: 25px 20px; 
-              text-align: center; 
-            }
-            .header-branding {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 15px;
-              margin-bottom: 8px;
-            }
-            .header img {
-              width: 48px;
-              height: 48px;
-              background: rgba(255, 255, 255, 0.2);
-              padding: 8px;
-              border-radius: 12px;
-              box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-              margin: 0;
-              flex-shrink: 0;
-            }
-            .header h1 {
-              margin: 0;
-              font-size: 24px;
-              font-weight: 700;
-              line-height: 1.2;
-            }
-            .content { 
-              padding: 40px 30px;
-            }
-            .content h2 {
-              color: #333;
-              font-size: 24px;
-              margin-bottom: 20px;
-            }
-            .feature { 
-              background: #f8f9fa; 
-              padding: 20px; 
-              margin: 15px 0; 
-              border-left: 4px solid #FF6B6B; 
-              border-radius: 5px; 
-            }
-            .feature strong {
-              color: #FF6B6B;
-              font-size: 16px;
-            }
-            .feature p {
-              margin: 10px 0 0 0;
-              color: #555;
-            }
-            .button-container {
-              text-align: center;
-              margin: 30px 0;
-            }
-            .button { 
-              display: inline-block; 
-              padding: 15px 40px; 
-              background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); 
-              color: white !important; 
-              text-decoration: none; 
-              border-radius: 5px; 
-              font-weight: 600;
-              font-size: 16px;
-            }
-            .footer { 
-              text-align: center; 
-              padding: 20px 30px;
-              background: #f8f9fa;
-              color: #6c757d; 
-              font-size: 13px; 
-            }
+              :root {
+                  --primary: #FF6B6B;
+                  --primary-gradient: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+                  --background: #F8FAFC;
+                  --card-bg: #FFFFFF;
+                  --text-main: #1E293B;
+                  --text-muted: #64748B;
+                  --border: #E2E8F0;
+              }
+
+              body {
+                  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  background-color: #F8FAFC;
+                  margin: 0;
+                  padding: 0;
+                  -webkit-font-smoothing: antialiased;
+              }
+
+              .email-container {
+                  max-width: 600px;
+                  margin: 0 auto;
+                  background-color: #FFFFFF;
+                  border: 1px solid #E2E8F0;
+                  border-radius: 16px;
+                  overflow: hidden;
+                  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+                  margin-top: 40px;
+                  margin-bottom: 40px;
+              }
+
+              .header {
+                  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+                  padding: 40px 20px;
+                  text-align: center;
+                  color: white;
+              }
+
+              .logo {
+                  width: 56px;
+                  height: 56px;
+                  background: rgba(255, 255, 255, 0.2);
+                  backdrop-filter: blur(10px);
+                  border-radius: 14px;
+                  margin-bottom: 16px;
+                  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                  object-fit: contain;
+                  padding: 4px;
+              }
+
+              .header h1 {
+                  margin: 0;
+                  font-size: 24px;
+                  font-weight: 800;
+                  letter-spacing: -0.025em;
+              }
+
+              .content {
+                  padding: 40px;
+              }
+
+              .welcome-text {
+                  font-size: 20px;
+                  font-weight: 800;
+                  color: #1E293B;
+                  margin-bottom: 16px;
+              }
+
+              .main-text {
+                  font-size: 16px;
+                  line-height: 1.6;
+                  color: #1E293B;
+                  margin-bottom: 32px;
+              }
+
+              .feature-item {
+                  display: flex;
+                  align-items: flex-start;
+                  padding: 16px;
+                  background: #F8FAFC;
+                  border-radius: 12px;
+                  margin-bottom: 12px;
+                  border: 1px solid #E2E8F0;
+              }
+
+              .feature-icon {
+                  width: 32px;
+                  height: 32px;
+                  background: #FFEBEB;
+                  border-radius: 8px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: #FF6B6B;
+                  font-size: 18px;
+                  flex-shrink: 0;
+                  margin-right: 16px;
+              }
+
+              .feature-content h3 {
+                  margin: 0;
+                  font-size: 15px;
+                  font-weight: 700;
+                  color: #1E293B;
+              }
+
+              .feature-content p {
+                  margin: 4px 0 0;
+                  font-size: 13px;
+                  color: #64748B;
+                  line-height: 1.4;
+              }
+
+              .actions {
+                  text-align: center;
+                  margin-bottom: 32px;
+                  margin-top: 32px;
+              }
+
+              .btn {
+                  display: inline-block;
+                  padding: 16px 40px;
+                  border-radius: 12px;
+                  font-weight: 600;
+                  font-size: 16px;
+                  text-decoration: none;
+                  transition: all 0.2s;
+                  background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+                  color: white !important;
+                  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+              }
+
+              .footer {
+                  padding: 32px 40px;
+                  background: #F8FAFC;
+                  text-align: center;
+                  border-top: 1px solid #E2E8F0;
+              }
+
+              .footer p {
+                  margin: 0;
+                  font-size: 12px;
+                  color: #64748B;
+                  line-height: 1.5;
+              }
+
+              @media (max-width: 480px) {
+                  .email-container {
+                      margin: 0;
+                      border-radius: 0;
+                      border: none;
+                  }
+                  .content {
+                      padding: 30px 20px;
+                  }
+              }
           </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="header-branding">
-                <img src="${LOGO_URL}" alt="Tasskr">
-                <h1> Email Verified Successfully!</h1>
+      </head>
+      <body>
+          <div class="email-container">
+              <div class="header">
+                  <img src="${LOGO_URL}" alt="Tasskr" class="logo">
+                  <h1>Successfully Verified</h1>
               </div>
-            </div>
-            <div class="content">
-              <h2>Welcome aboard, ${user.firstName}!</h2>
-              <p>Your email has been verified successfully. You can now access all features of Tasskr.</p>
-              
-              <div class="feature">
-                <strong>✓ Create and manage tasks</strong>
-                <p>Organize your work efficiently with our intuitive Tasskr.</p>
+
+              <div class="content">
+                  <p class="welcome-text">Welcome aboard, ${user.firstName}!</p>
+                  <p class="main-text">
+                      Your email has been successfully verified. You're now ready to experience the full power of Tasskr. Here's what you can do next:
+                  </p>
+
+                  <div class="feature-item">
+                      <div class="feature-icon">✓</div>
+                      <div class="feature-content">
+                          <h3>Manage Tasks Effortlessly</h3>
+                          <p>Organize, prioritize, and track your work with our intuitive task manager.</p>
+                      </div>
+                  </div>
+
+                  <div class="feature-item">
+                      <div class="feature-icon">✓</div>
+                      <div class="feature-content">
+                          <h3>Seamless Collaboration</h3>
+                          <p>Invite team members, assign tasks, and communicate in real-time.</p>
+                      </div>
+                  </div>
+
+                  <div class="feature-item">
+                      <div class="feature-icon">✓</div>
+                      <div class="feature-content">
+                          <h3>Insightful Analytics</h3>
+                          <p>Monitor your productivity and team progress with detailed visual reports.</p>
+                      </div>
+                  </div>
+
+                  <div class="actions">
+                      <a href="${loginUrl}" class="btn">Login to Your Account</a>
+                  </div>
+
+                  <p class="main-text" style="margin-bottom: 0;">
+                      Need help getting started? Visit our <a href="${frontendUrl}/help" style="color: #FF6B6B; text-decoration: none;">Help Center</a> or reply to this email.
+                  </p>
               </div>
-              
-              <div class="feature">
-                <strong>✓ Collaborate with team</strong>
-                <p>Assign tasks and work together seamlessly.</p>
+
+              <div class="footer">
+                  <p><strong>Tasskr</strong> — Your Advanced Task Management Partner</p>
+                  <p>© ${new Date().getFullYear()} Tasskr Inc. All rights reserved.</p>
+                  <p style="margin-top: 8px;">Sent to ${user.email}. You received this email because you signed up for Tasskr.</p>
               </div>
-              
-              <div class="feature">
-                <strong>✓ Track progress</strong>
-                <p>Monitor your productivity with detailed analytics.</p>
-              </div>
-              
-              <div class="button-container">
-                <a href="${loginUrl}" class="button">Login to Your Account</a>
-              </div>
-              
-              <p style="margin-top: 30px;">If you have any questions, feel free to reach out to our support team.</p>
-              
-              <p>Best regards,<br><strong>The Tasskr Team</strong></p>
-            </div>
-            <div class="footer">
-              <p>© ${new Date().getFullYear()} Tasskr. All rights reserved.</p>
-            </div>
           </div>
-        </body>
+      </body>
       </html>
     `;
 
@@ -427,8 +556,12 @@ class EmailService {
       
       Welcome aboard, ${user.firstName}!
       
-      Your email has been verified. You can now login at:
-      ${loginUrl}
+      Your email has been verified. You're now ready to use Tasskr. Here's what you can do:
+      - Manage Tasks Effortlessly
+      - Seamless Collaboration
+      - Insightful Analytics
+      
+      Login to your account: ${loginUrl}
       
       Best regards,
       The Tasskr Team
