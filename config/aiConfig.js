@@ -94,6 +94,9 @@ export const TOPUP_PACKAGES = {
 // ========== ENTERPRISE WHITELIST ==========
 // Users in this list get unlimited AI access and auto-creation
 export const WHITELISTED_EMAILS = [
+  "chirag@digitalmongers.com",
+  "paras@digitalmongers.com",
+  "parasmourya288@gmail.com",
   "c.sharma4002@gmail.com",
   "digitalmongers72@gmail.com"
 ];
