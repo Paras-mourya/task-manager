@@ -59,8 +59,8 @@ const taskPrioritySchema = new mongoose.Schema(
 // Partial unique index: user + name should be unique for non-deleted priorities only
 // This allows reusing names after soft deletion
 taskPrioritySchema.index(
-  { user: 1, name: 1 }, 
-  { 
+  { user: 1, name: 1 },
+  {
     unique: true,
     partialFilterExpression: { isDeleted: { $ne: true } }
   }
